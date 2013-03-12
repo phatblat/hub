@@ -661,7 +661,7 @@ module Hub
     end
 
     def alias(args)
-      shells = %w[bash zsh sh ksh csh fish]
+      shells = %w[bash zsh sh ksh csh fish git-sh]
 
       script = !!args.delete('-s')
       shell = args[1] || ENV['SHELL']
@@ -683,9 +683,10 @@ module Hub
         end
       else
         profile = case shell
-          when 'bash' then '~/.bash_profile'
-          when 'zsh'  then '~/.zshrc'
-          when 'ksh'  then '~/.profile'
+          when 'bash'   then '~/.bash_profile'
+          when 'zsh'    then '~/.zshrc'
+          when 'ksh'    then '~/.profile'
+          when 'git-sh' then '~/.gitshrc'
           else
             'your profile'
           end

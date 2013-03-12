@@ -10,6 +10,16 @@ Feature: hub alias
       eval "$(hub alias -s)"\n
       """
 
+  Scenario: git-sh instructions
+    Given $SHELL is "/usr/local/bin/git-sh"
+    When I successfully run `hub alias`
+    Then the output should contain exactly:
+      """
+      # Wrap git automatically by adding the following to ~/.gitshrc:
+
+      eval "$(hub alias -s)"\n
+      """
+
   Scenario: zsh instructions
     Given $SHELL is "/bin/zsh"
     When I successfully run `hub alias`
@@ -22,6 +32,14 @@ Feature: hub alias
 
   Scenario: bash code
     Given $SHELL is "/bin/bash"
+    When I successfully run `hub alias -s`
+    Then the output should contain exactly:
+      """
+      alias git=hub\n
+      """
+
+  Scenario: git-sh code
+    Given $SHELL is "/usr/local/bin/git-sh"
     When I successfully run `hub alias -s`
     Then the output should contain exactly:
       """
@@ -45,6 +63,6 @@ Feature: hub alias
     Then the output should contain exactly:
       """
       hub alias: unsupported shell
-      supported shells: bash zsh sh ksh csh fish\n
+      supported shells: bash zsh sh ksh csh fish git-sh\n
       """
     And the exit status should be 1
